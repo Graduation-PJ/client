@@ -1,0 +1,58 @@
+.register_page{
+
+}
+
+.register_container{
+    width: 460px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 1px solid;
+    border-color: var(--color-line);
+    border-radius: 5px;
+    /*로그인 form 가운데 정렬*/
+    margin-left: auto;
+    margin-right: auto;
+    /*위 아래 위치*/
+    margin-top: 80px;
+    padding: 65px 0px;
+    margin-bottom: 140px;
+}
+
+.logo{
+
+}
+
+.register_container >form{
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+}
+
+.register_container >form >input{
+    width: 370px;
+    height: 16px;
+    padding: 15px;
+
+    border: 1px solid;
+    border-color: var(--color-line);
+    border-radius: 5px;
+}
+
+.register_container >form >p{
+    margin: 15px 1px;
+    margin-bottom: 5px;
+
+    font-size: 16px;
+}
+
+.register_container >form >button{
+    height: 50px;
+    margin-top: 60px;
+    background-color: var(--color-line);
+    border-color: var(--color-line);
+    font-weight: bold;
+    font-size: 16px;
+}
