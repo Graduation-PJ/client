@@ -1,0 +1,62 @@
+.login_page{
+}
+
+.login_container{
+    width: 460px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 1px solid;
+    border-color: var(--color-line);
+    border-radius: 5px;
+    /*로그인 form 가운데 정렬*/
+    margin-left: auto;
+    margin-right: auto;
+    /*위 아래 위치*/
+    margin-top: 80px;
+    padding: 65px 0px;
+}
+
+.logo{
+
+}
+
+.login_container >form{
+    display: flex;
+    flex-direction: column;
+    padding-top: 40px;
+}
+
+.login_container >form>input{
+    width: 370px;
+    height: 16px;
+    padding: 15px;
+
+    border: 1px solid;
+    border-bottom: none;
+    border-color: var(--color-line);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.login_container >form>button{
+    height: 50px;
+    background-color: var(--color-line);
+    border-color: var(--color-line);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.link_to_register{
+    width: 400px;
+    padding: 10px;
+    color: var(--color-preview-font);
+    font-size: 14px;
+}
+
+.register_link{
+    padding: 0px 10px;
+    font-weight: bold;
+}

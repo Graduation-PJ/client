@@ -12,18 +12,19 @@ function NavBar() {
             </Link>
 
             <div className="nav_menu">
-                <Link to="/login">
-                    {/*로그인하기 링크*/}
-                    <span className="menu_link">로그인하기</span>
-                </Link>
-                <Link to="/newPost">
-                    {/*글쓰기 링크*/}
-                    <span className="menu_link">글쓰기</span>
-                </Link>
-                <Link to="/myPage">
-                    {/*마이페이지 링크*/}
-                    <span className="menu_link">마이페이지</span>
-                </Link>
+                {/*로그인하기 링크*/}
+                <span className="menu_link">
+                <Link to="/login">로그인하기</Link>
+                </span>
+                {/*글쓰기 링크*/}
+                <span className="menu_link">
+                <Link to="/newPost">글쓰기</Link>
+                </span>
+                {/*마이페이지 링크*/}
+                <span className="menu_link">
+                <Link to="/myPage">마이페이지</Link>
+                </span>
+
             </div>
         </div>
     );
