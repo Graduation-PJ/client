@@ -4,17 +4,20 @@
     background: white;
     border: 1px solid;
     border-color: var(--color-shadow-line);
-    border-radius: 5px;
+    border-radius: 6px;
+    margin: 15px;
 }
 
 .post_preview_img{
     width: 230px;
     height: 170px;
     object-fit: cover;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
 }
 
 .post_preview_info{
-    padding: 20px 12px;
+    padding: 20px 18px;
 }
 .post_preview_info > p{
     margin: 0px;
