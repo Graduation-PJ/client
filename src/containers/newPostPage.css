@@ -36,7 +36,7 @@
 }
 /*글 작성 공간*/
 .writing_post_container{
-    padding: 40px;
+    padding: 50px;
     background: white;
 }
 /*제목 입력칸*/
@@ -74,7 +74,7 @@
 }
 {/*작성한 글 미리보기*/}
 .markdown_post_container{
-    padding: 40px;
+    padding: 50px;
 }
 .markdown_title{
     height: 24px;
