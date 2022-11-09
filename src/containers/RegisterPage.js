@@ -31,8 +31,8 @@ function RegisterPage() {
                            onChange={(e) => setPassword(e.target.value)}/>
                     <p>비밀번호 재확인</p>
                     <input type="password" placeholder="비밀번호 재확인" />
-                    <p>이름</p>
-                    <input type="text" placeholder="이름"
+                    <p>닉네임</p>
+                    <input type="text" placeholder="닉네임"
                            value={name} onChange={(e) => setName(e.target.value)}/>
                     <p>이메일</p>
                     <input type="text" placeholder="이메일"
