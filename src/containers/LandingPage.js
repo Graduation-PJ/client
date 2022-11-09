@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
+import './LandingPage.css';
 import NavBar from "./NavBar";
 import axios from "axios";
+import PostPreview from "../components/PostPreview";
 
 function LandingPage() {
     const [id, setId] = useState("");
@@ -18,7 +20,23 @@ function LandingPage() {
     return (
         <div className="landing_page">
             <NavBar />
-            landing page
+            <div className="landing_page_post_container">
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+                <PostPreview />
+            </div>
         </div>
     );
 }

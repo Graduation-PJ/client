@@ -1,0 +1,6 @@
+.landing_page_post_container{
+    padding: 45px 75px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;  /*한 줄이 꽉 차면 다음 줄로 이동*/
+}
