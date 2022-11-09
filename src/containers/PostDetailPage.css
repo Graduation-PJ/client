@@ -1,0 +1,38 @@
+.post_detail_info{
+    width: 880px;
+    height: 100%;
+    margin-top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.post_detail_title{
+    font-weight: bold;
+    font-size: 24px;
+}
+
+/*Avatar 사이즈*/
+.post_detail_row > .css-2s90m6-MuiAvatar-root{
+    width: 55px;
+    height: 55px;
+}
+
+.post_detail_row{
+    display: flex;
+    font-size: 16px;
+}
+
+/*p태그 마진 빼기*/
+.post_detail_row >p{
+    margin: 0px;
+}
+
+.post_detail_row_padding{
+    padding: 0px 3px;
+}
+
+.post_detail_content{
+    padding-top: 20px;
+    padding-bottom: 80px;
+    font-size: 16px;
+}
