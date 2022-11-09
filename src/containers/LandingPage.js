@@ -1,9 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './LandingPage.css';
 import NavBar from "./NavBar";
+import axios from "axios";
 import PostPreview from "../components/PostPreview";
 
 function LandingPage() {
+    const [id, setId] = useState("");
+    const [password, setPassword] = useState("");
+
+    useEffect(()=>{
+        axios.get('http://localhost:8080/'
+        ).then(function (response) {
+            console.log(response)
+        }).catch(function (error) {
+            console.log(error);
+        })
+    })
+
     return (
         <div className="landing_page">
             <NavBar />
@@ -24,7 +37,6 @@ function LandingPage() {
                 <PostPreview />
                 <PostPreview />
             </div>
-
         </div>
     );
 }

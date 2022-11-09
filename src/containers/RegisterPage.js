@@ -1,16 +1,28 @@
 import React, {useState} from 'react';
 import './RegisterPage.css';
 import NavBar from "./NavBar";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function RegisterPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [nickName, setNickName] = useState("");
     const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
     const handleRegister = (e) => {
         e.preventDefault();
+
+        axios.post('http://localhost:8080/signUp/success', {
+            userId: id, userPassword: password, email: email, nickname: nickName
+        }).then(function (response) {
+            //회원가입 성공했을 때
+            navigate('/login');
+            alert(`${nickName}님 환영합니다~`);
+        }).catch(function (error) {
+            console.log(`Error Message: ${error}`);
+        });
     }
 
     return (
