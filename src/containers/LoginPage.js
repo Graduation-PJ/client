@@ -1,15 +1,34 @@
 import React, {useState} from 'react';
 import './LoginPage.css';
 import NavBar from "./NavBar";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function LoginPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
+    const navigate=useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
-    }
+
+        axios.post('http://localhost:8080/login/process',{
+            userId: id, userPassword: password
+        }).then(function(response){
+            axios.get('http://localhost:8080/'
+            ).then(function (response) {
+                console.log(response)
+            }).catch(function (error) {
+                console.log(error);
+            })
+            navigate('/');
+            alert('환영합니다 ~')
+        }).catch(function (error) {
+            console.log(`Error Message: ${error}`);
+        })
+        setId("");
+        setPassword("");
+    };
 
     return (
         <div className="login_page">
