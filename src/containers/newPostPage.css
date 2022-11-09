@@ -52,6 +52,16 @@
     outline: none;
 }
 
+/*마크다운 도구들*/
+.markdown_tools_container{
+    display: flex;
+    align-items: center;
+}
+.markdown_tool{
+    width: 20px;
+    height: 20px;
+    padding: 8px;
+}
 /*내용 입력 칸*/
 .writing_post_input_content {
     width: 100%;
@@ -74,16 +84,21 @@
 }
 {/*작성한 글 미리보기*/}
 .markdown_post_container{
-    padding: 50px;
+    padding: 40px 50px;
 }
 .markdown_title{
     height: 24px;
     padding-bottom: 25px;
-    font-size: 24px;
+    font-size: 45px;
     font-weight: bold;
 }
+.markdown_title>p{
+    margin: 25px 0px;
+}
+
 .markdown_content{
     width: 100%;
+    font-size: 16px;
     padding-top: 20px;
     word-wrap: break-word;  /*텍스트 길이가 길 때 줄바꿈*/
 }

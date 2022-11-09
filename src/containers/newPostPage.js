@@ -2,24 +2,33 @@ import React, {useState} from 'react';
 import './newPostPage.css';
 import NavBar from "./NavBar";
 import {Link} from "react-router-dom";
+import Markdown from "marked-react";
+
+import H1 from "../_img/H1.svg";
+import H2 from "../_img/H2.svg";
+import H3 from "../_img/H3.svg";
+import H4 from "../_img/H4.svg";
+import Bold from "../_img/Format bold.svg";
+import Italic from "../_img/Format italic.svg";
+import LinkImg from "../_img/Link.svg";
+import ImageImg from "../_img/Image.svg";
+import Code from "../_img/Code.svg";
+import Line from "../_img/Line 3.svg";
+
 
 function NewPostPage() {
-    const [inputTitle, setInputTitle]= useState("");  //제목 저장
-    const [inputContent, setInputContent]= useState("");  //내용 저장
+    const [inputTitle, setInputTitle] = useState("");  //제목 저장
+    const [inputContent, setInputContent] = useState("");  //내용 저장
 
     //발행 버튼 클릭 이벤트
-    const handleSubmitPost=(e)=>{
+    const handleSubmitPost = (e) => {
         e.preventDefault();
     }
 
     //내용 입력 칸이 늘어난다.
-    const resize=(obj)=>{
-        obj.target.style.height="1px";
-        obj.target.style.height=obj.target.scrollHeight+"px";
-    }
-
-    const showInputContent=(e)=>{
-
+    const resize = (obj) => {
+        obj.target.style.height = "1px";
+        obj.target.style.height = obj.target.scrollHeight + "px";
     }
 
     return (
@@ -36,7 +45,8 @@ function NewPostPage() {
                         <span className="menu_link">
                             <Link to="/">임시저장</Link>
                         </span>
-                        <button className="menu_link menu_save" type="text" onClick={handleSubmitPost}><Link to="/">발행</Link></button>
+                        <button className="menu_link menu_save" type="text" onClick={handleSubmitPost}><Link
+                            to="/">발행</Link></button>
                     </div>
                 </div>
                 {/*글 작성 공간*/}
@@ -44,7 +54,20 @@ function NewPostPage() {
                     {/*제목 입력*/}
                     <input type="text" className="writing_post_input_title" placeholder="제목을 입력하세요." required
                            value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
-                    <hr />
+                    <hr/>
+                    <div className="markdown_tools_container">
+                        <img className="markdown_tool" src={H1} alt="" />
+                        <img className="markdown_tool" src={H2} alt="" />
+                        <img className="markdown_tool" src={H3} alt="" />
+                        <img className="markdown_tool" src={H4} alt="" />
+                        <img className="markdown_tool" src={Line} alt="" />
+                        <img className="markdown_tool" src={Bold} alt="" />
+                        <img className="markdown_tool" src={Italic} alt="" />
+                        <img className="markdown_tool" src={Line} alt="" />
+                        <img className="markdown_tool" src={LinkImg} alt="" />
+                        <img className="markdown_tool" src={ImageImg} alt="" />
+                        <img className="markdown_tool" src={Code} alt="" />
+                    </div>
                     {/*업로드 내용 입력*/}
                     <textarea className="writing_post_input_content" placeholder="내용을 입력하세요." required
                               value={inputContent} onChange={(e) => setInputContent(e.target.value)}
@@ -53,14 +76,13 @@ function NewPostPage() {
             </div>
             {/*작성한 글 미리보기 페이지*/}
             <div className="markdown_post">
-                <NavBar />  {/*작성한 글 미리보기 페이지 네비게이션 바*/}
+                <NavBar/> {/*작성한 글 미리보기 페이지 네비게이션 바*/}
                 <div className="markdown_post_container">
                     <div className="markdown_title">
                         <p>{inputTitle}</p>
                     </div>
                     <div className="markdown_content">
-                        {inputContent}
-
+                        <Markdown>{inputContent}</Markdown>
                     </div>
                 </div>
             </div>
