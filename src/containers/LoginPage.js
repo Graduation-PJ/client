@@ -7,22 +7,49 @@ import axios from "axios";
 function LoginPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8080/login/process',{
+        // function a()
+        // {
+        //     axios.post('http://localhost:8080/login/process',
+        //         {
+        //             userId: id,
+        //             userPassword: password,
+        //         },
+        //         {
+        //             withCredentials: true,
+        //         }).then(response =>{console.log(response); console.log('post')})
+        //         .catch((error)=>console.log(1));
+        //     axios.get('http://localhost:8080/', {withCredentials:true}).then();
+        // }
+        //
+        // a();
+        // try{
+        //     const response= await axios.post('http://localhost:8080/api/login/process', {
+        //         userId: id, userPassword: password
+        //     });
+        //     const response2= await axios.get('http://localhost:8080/api/');
+        //     console.log("response>>", response2.data);
+        // }catch(error){
+        //     console.log(error);
+        // }
+        //
+        axios.post('http://localhost:8080/login/process', {
             userId: id, userPassword: password
-        }).then(function(response){
-            axios.get('http://localhost:8080/'
+        }, {withCredentials: true}).then(function (response) {
+            navigate('/');
+            alert('환영합니다 ~');
+
+            axios.get('http://localhost:8080/', {withCredentials: true}
             ).then(function (response) {
                 console.log(response)
             }).catch(function (error) {
                 console.log(error);
             })
-            navigate('/');
-            alert('환영합니다 ~')
+
         }).catch(function (error) {
             console.log(`Error Message: ${error}`);
         })
