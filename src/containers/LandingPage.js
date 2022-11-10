@@ -5,17 +5,14 @@ import axios from "axios";
 import PostPreview from "../components/PostPreview";
 
 function LandingPage() {
-    // const [id, setId] = useState("");
-    // const [password, setPassword] = useState("");
-
-    useEffect(()=>{
-        axios.get('http://localhost:8080/', {withCredentials: true}
-        ).then(function (response) {
-            console.log(response)
-        }).catch(function (error) {
-            console.log(error);
-        })
-    })
+    // useEffect(()=>{
+    //     axios.get('http://localhost:8080/', {withCredentials: true}
+    //     ).then(function (response) {
+    //         console.log(response)
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     })
+    // })
 
     return (
         <div className="landing_page">

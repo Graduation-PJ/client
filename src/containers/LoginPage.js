@@ -3,53 +3,34 @@ import './LoginPage.css';
 import NavBar from "./NavBar";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import {login} from "../_features/userSlice";
+import {useDispatch} from "react-redux";
 
 function LoginPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch= useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        // function a()
-        // {
-        //     axios.post('http://localhost:8080/login/process',
-        //         {
-        //             userId: id,
-        //             userPassword: password,
-        //         },
-        //         {
-        //             withCredentials: true,
-        //         }).then(response =>{console.log(response); console.log('post')})
-        //         .catch((error)=>console.log(1));
-        //     axios.get('http://localhost:8080/', {withCredentials:true}).then();
-        // }
-        //
-        // a();
-        // try{
-        //     const response= await axios.post('http://localhost:8080/api/login/process', {
-        //         userId: id, userPassword: password
-        //     });
-        //     const response2= await axios.get('http://localhost:8080/api/');
-        //     console.log("response>>", response2.data);
-        // }catch(error){
-        //     console.log(error);
-        // }
-        //
         axios.post('http://localhost:8080/login/process', {
             userId: id, userPassword: password
         }, {withCredentials: true}).then(function (response) {
-            navigate('/');
-            alert('환영합니다 ~');
 
-            axios.get('http://localhost:8080/', {withCredentials: true}
+            axios.get('http://localhost:8080/', {withCredentials: true},
             ).then(function (response) {
+                dispatch(login({  //로그인
+                    uid: response.data  
+                }))
                 console.log(response)
             }).catch(function (error) {
                 console.log(error);
             })
 
+            navigate('/');
+            alert('환영합니다 ~');
         }).catch(function (error) {
             console.log(`Error Message: ${error}`);
         })

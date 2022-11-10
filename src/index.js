@@ -3,11 +3,22 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {persistStore} from "redux-persist";
+import {store} from "./_app/store";
+import {Provider} from "react-redux";
+import {PersistGate} from "redux-persist/integration/react";
+
+//store export : PersistGate가 store을 읽을 수 있게 한다.
+export let persistor=persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+              <App />
+          </PersistGate>
+      </Provider>
   </React.StrictMode>
 );
 
