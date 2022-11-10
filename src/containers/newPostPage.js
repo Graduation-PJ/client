@@ -19,10 +19,18 @@ import Line from "../_img/Line 3.svg";
 function NewPostPage() {
     const [inputTitle, setInputTitle] = useState("");  //제목 저장
     const [inputContent, setInputContent] = useState("");  //내용 저장
+    let insertMarkDown;
 
     //발행 버튼 클릭 이벤트
     const handleSubmitPost = (e) => {
         e.preventDefault();
+    }
+
+    const MarkDownH1=(e)=>{
+        e.preventDefault();
+        // insertMarkDown="# "
+        // setInputContent(inputContent+insertMarkDown);
+
     }
 
     //내용 입력 칸이 늘어난다.
@@ -56,22 +64,22 @@ function NewPostPage() {
                            value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
                     <hr/>
                     <div className="markdown_tools_container">
-                        <img className="markdown_tool" src={H1} alt="" />
-                        <img className="markdown_tool" src={H2} alt="" />
-                        <img className="markdown_tool" src={H3} alt="" />
-                        <img className="markdown_tool" src={H4} alt="" />
+                        <img className="markdown_tool tool_hover" src={H1} alt="" onClick={MarkDownH1}  />
+                        <img className="markdown_tool tool_hover" src={H2} alt="" />
+                        <img className="markdown_tool tool_hover" src={H3} alt="" />
+                        <img className="markdown_tool tool_hover" src={H4} alt="" />
                         <img className="markdown_tool" src={Line} alt="" />
-                        <img className="markdown_tool" src={Bold} alt="" />
-                        <img className="markdown_tool" src={Italic} alt="" />
+                        <img className="markdown_tool tool_hover" src={Bold} alt="" />
+                        <img className="markdown_tool tool_hover" src={Italic} alt="" />
                         <img className="markdown_tool" src={Line} alt="" />
-                        <img className="markdown_tool" src={LinkImg} alt="" />
-                        <img className="markdown_tool" src={ImageImg} alt="" />
-                        <img className="markdown_tool" src={Code} alt="" />
+                        <img className="markdown_tool tool_hover" src={LinkImg} alt="" />
+                        <img className="markdown_tool tool_hover" src={ImageImg} alt="" />
+                        <img className="markdown_tool tool_hover" src={Code} alt="" />
                     </div>
                     {/*업로드 내용 입력*/}
                     <textarea className="writing_post_input_content" placeholder="내용을 입력하세요." required
                               value={inputContent} onChange={(e) => setInputContent(e.target.value)}
-                              onKeyDown={resize} onKeyUp={resize}/>
+                              onKeyDown={resize} onKeyUp={resize} focuautoFocus={{preventScroll: true}}/>
                 </div>
             </div>
             {/*작성한 글 미리보기 페이지*/}
@@ -82,7 +90,7 @@ function NewPostPage() {
                         <p>{inputTitle}</p>
                     </div>
                     <div className="markdown_content">
-                        <Markdown>{inputContent}</Markdown>
+                        <Markdown ref={(ref)=>this.nameInput=ref}>{inputContent}</Markdown>
                     </div>
                 </div>
             </div>
