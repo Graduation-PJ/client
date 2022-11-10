@@ -1,7 +1,7 @@
 import React from 'react';
 import './PostDetailPage.css';
 import NavBar from "./NavBar";
-// import {Avatar} from "@mui/material";
+import {Avatar} from "@mui/material";
 
 function PostDetailPage() {
     return (
@@ -11,7 +11,7 @@ function PostDetailPage() {
                 <p className="post_detail_title">정보보호 1주차</p>
 
                 <div className="post_detail_row">
-                    {/*<Avatar  />*/}
+                    <Avatar  />
                     <div style={{paddingLeft: '10px', display: 'flex', flexDirection:'column', justifyContent:'center'}}>
                         <div className="post_detail_row">
                             <p className="post_detail_row_padding">작성자</p>

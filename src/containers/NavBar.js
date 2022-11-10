@@ -11,17 +11,19 @@ function NavBar() {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-        console.log(user);
-        if (user) {
-            //로그아웃
+        if (user) {  //로그인 되어있는 상태 : 로그아웃
             axios.get('http://localhost:8080/login/logout', {withCredentials: true}).then(function (response) {
                 navigate('/');
-                alert('로그아웃');
                 dispatch(logout());
-                console.log('로그아웃');
             }).catch(function (error) {
                 console.log(`Error Message: ${error}`);
             })
+        }
+    }
+
+    const handleLogIn=()=>{
+        if(!user){
+            alert('로그인이 필요합니다.');
         }
     }
 
@@ -41,11 +43,13 @@ function NavBar() {
                     </span>
                 {/*글쓰기 링크*/}
                 <span className="menu_link">
-                    <Link to="/newPost">글쓰기</Link>
+                    <Link to={user && '/newPost'}>
+                        <span onClick={handleLogIn}>글쓰기</span></Link>
                     </span>
                 {/*마이페이지 링크*/}
                 <span className="menu_link">
-                    <Link to="/myPage">마이페이지</Link>
+                    <Link to={user && '/myPage'}>
+                        <span onClick={handleLogIn}>마이페이지</span></Link>
                     </span>
 
             </div>

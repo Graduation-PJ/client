@@ -10,21 +10,20 @@ function LoginPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const dispatch= useDispatch();
+    const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
         axios.post('http://localhost:8080/login/process', {
-            userId: id, userPassword: password
-        }, {withCredentials: true}).then(function (response) {
+                userId: id, userPassword: password}, {withCredentials: true}
+        ).then(function (response) {
 
             axios.get('http://localhost:8080/', {withCredentials: true},
             ).then(function (response) {
                 dispatch(login({  //로그인
-                    uid: response.data  
+                    uid: response.data
                 }))
-                console.log(response)
             }).catch(function (error) {
                 console.log(error);
             })
@@ -32,6 +31,7 @@ function LoginPage() {
             navigate('/');
             alert('환영합니다 ~');
         }).catch(function (error) {
+            alert('아이디 또는 비밀번호를 잘못 입력했습니다.\n다시 로그인 해주세요.');
             console.log(`Error Message: ${error}`);
         })
         setId("");

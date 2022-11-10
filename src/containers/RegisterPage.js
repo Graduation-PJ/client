@@ -16,11 +16,13 @@ function RegisterPage() {
 
         axios.post('http://localhost:8080/signUp/success', {
             userId: id, userPassword: password, email: email, nickname: nickName
-        }).then(function (response) {
-            //회원가입 성공했을 때
-            navigate('/login');
-            alert(`${nickName}님 환영합니다~`);
-        }).catch(function (error) {
+        }, {withCredentials: true})
+            .then(function (response) {
+                //회원가입 성공했을 때
+                navigate('/login');
+                alert(`${nickName}님 환영합니다~`);
+            }).catch(function (error) {
+            alert('회원가입 실패');
             console.log(`Error Message: ${error}`);
         });
     }
@@ -42,7 +44,7 @@ function RegisterPage() {
                     <input type="password" placeholder="비밀번호" value={password}
                            onChange={(e) => setPassword(e.target.value)}/>
                     <p>비밀번호 재확인</p>
-                    <input type="password" placeholder="비밀번호 재확인" />
+                    <input type="password" placeholder="비밀번호 재확인"/>
                     <p>닉네임</p>
                     <input type="text" placeholder="닉네임"
                            value={nickName} onChange={(e) => setNickName(e.target.value)}/>
