@@ -1,15 +1,42 @@
 import React, {useState} from 'react';
 import './LoginPage.css';
 import NavBar from "./NavBar";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
+import {login} from "../_features/userSlice";
+import {useDispatch} from "react-redux";
 
 function LoginPage() {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-    }
+
+        axios.post('http://localhost:8080/login/process', {
+                userId: id, userPassword: password}, {withCredentials: true}
+        ).then(function (response) {
+
+            axios.get('http://localhost:8080/', {withCredentials: true},
+            ).then(function (response) {
+                dispatch(login({  //로그인
+                    uid: response.data
+                }))
+            }).catch(function (error) {
+                console.log(error);
+            })
+
+            navigate('/');
+            alert('환영합니다 ~');
+        }).catch(function (error) {
+            alert('아이디 또는 비밀번호를 잘못 입력했습니다.\n다시 로그인 해주세요.');
+            console.log(`Error Message: ${error}`);
+        })
+        setId("");
+        setPassword("");
+    };
 
     return (
         <div className="login_page">
