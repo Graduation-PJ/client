@@ -1,0 +1,40 @@
+.comment {
+    margin-top: 30px;
+}
+
+.comment_row {
+    display: flex;
+    margin: 10px 0px;
+}
+
+/*Avatar 사이즈*/
+.comment_row > .css-2s90m6-MuiAvatar-root {
+    width: 45px;
+    height: 45px;
+}
+
+.comment_row > div > p {
+    margin: 0px;
+    margin-top: 1px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.comment_row > div > comment_row >p {
+    margin: 5px;
+}
+.comment_row_center{
+    align-items: center;
+}
+
+.comment_row >p {
+    margin: 0px;
+    font-size: 12px;
+}
+.comment_row >button {
+    height: 100%;
+    background: none;
+    border: none;
+    margin: 0px 15px;
+    font-size: 12px;
+}

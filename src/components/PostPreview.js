@@ -11,8 +11,8 @@ function PostPreview() {
                      src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjZfMjI4%2FMDAxNjY2NzIxOTIxNjk4.XEujLVjuXmu5lou860nFu97yWbWUdth6tHiQHRl5UBUg.W55nUYehJB_sFqqWfsjW0PilQVJBwzTlyZE5XyNK2f0g.PNG.xxunju%2F%25BD%25BA%25C5%25A9%25B8%25B0%25BC%25A6%2528882%2529.png&type=sc960_832"
                      alt=""/>
                 <div className="post_preview_info">
-                    <p className="post_preview_title">정보보호 1주차</p>
-                    <p className="post_preview_content">대다수의 사람들이 컴퓨터를 이용해 업무를 처리하고 그 컴퓨터들이 네트워크를 통해 서로 연결되면</p>
+                    <p className="post_preview_title">Database Systems 1주차</p>
+                    <p className="post_preview_content">몇가지 용어 - 데이터 : 컴퓨터에 저장되어있고, 보낼 수 있는 모든 정보 - 데이터베이스 : 구조를 가진 데이터의 모임</p>
                     <p className="padding_15px"></p>
                     <div className="post_preview_info_row">
                         <p className="post_preview_info_small">작성자</p>

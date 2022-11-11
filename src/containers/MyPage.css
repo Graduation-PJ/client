@@ -1,4 +1,23 @@
 .my_page_container{
+    width: 880px;
+    height: 100%;
+    margin-top: 100px;
+    margin-right: auto;
+    margin-left: auto;
+}
 
-    height: 100px;
+.my_page_row{
+    display: flex;
+    align-items: flex-end;
+}
+
+/*Avatar 사이즈*/
+.my_page_row > .css-2s90m6-MuiAvatar-root{
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+}
+
+.my_page_row > div >p{
+    margin: 5px;
 }
