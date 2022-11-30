@@ -14,9 +14,11 @@ import LinkImg from "../_img/Link.svg";
 import ImageImg from "../_img/Image.svg";
 import Code from "../_img/Code.svg";
 import Line from "../_img/Line 3.svg";
+import axios from "axios";
 
 function NewPostPage() {
     const [inputTitle, setInputTitle] = useState("");  //제목 저장
+    const [inputCategory, setInputCategory]=useState("");  //카테고리 저장
     const [inputContent, setInputContent] = useState("");  //입력한 내용 저장
     const [markDownContent, setMarkDownContent] = useState("");  //마크다운 내용 저장
     let insertMarkDown;
@@ -26,6 +28,17 @@ function NewPostPage() {
     //발행 버튼 클릭 이벤트
     const handleSubmitPost = (e) => {
         e.preventDefault();
+
+        axios.post('http://localhost:8080/board/writing',{title: inputTitle, content: inputContent, category: inputCategory, uploadDate: new Date()}, {withCredentials:true}
+        ).then(function (response){
+            console.log(response);
+            alert('글이 발행되었습니다.');
+            setInputTitle("");
+            setInputContent("");
+            setMarkDownContent("");
+        }).catch(function(error){
+            console.log(error);
+        });
     }
 
     //markDown tools
@@ -147,6 +160,15 @@ function NewPostPage() {
         setMarkDownContent(content);  //엔터키 마크다운 문법 반영
     }
 
+    const loadFile=(e)=>{
+        var file= e.target.files[0];
+
+        var newImage= document.getElementById("img");
+        newImage.src=URL.createObjectURL(file);
+        newImage=document.getElementById('img').lastElementChild;
+        // newImage.style.visibility="visible";
+    }
+
     return (
         <div ref={scrollFocus} className="new_post_page">
             {/*글 작성 페이지*/}
@@ -184,6 +206,9 @@ function NewPostPage() {
                             <img className="markdown_tool tool_hover" src={LinkImg} alt="" onClick={MarkDownLink}/>
                             <img className="markdown_tool tool_hover" src={ImageImg} alt="" onClick={MarkDownImg}/>
                             <img className="markdown_tool tool_hover" src={Code} alt="" onClick={MarkDownCode}/>
+
+                            <input type="file" id="chooseFile" name="picture" size="50" accept="image/*" onChange={loadFile}/>
+                            <img id="img" src={ImageImg} style={{width: "500px", height: "500px"}} />
                         </div>
                     </div>
                     {/*업로드 내용 입력*/}

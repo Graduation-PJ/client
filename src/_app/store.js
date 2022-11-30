@@ -1,5 +1,6 @@
 import {combineReducers} from "redux";
 import userReducer from '../_features/userSlice';
+import postReducer from '../_features/postSlice';
 import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 import {configureStore} from "@reduxjs/toolkit";
@@ -7,6 +8,7 @@ import thunk from "redux-thunk";
 
 const reducers=combineReducers({
     user: userReducer,
+    post: postReducer,
 });
 
 const persistConfig={
