@@ -19,6 +19,7 @@ function App() {
                     <Route path="/newPost" element={<NewPostPage/>}/>
                     <Route path="/postDetail" element={<PostDetailPage/>}/>
                     <Route path="/myPage" element={<MyPage/>}/>
+                    <Route path="/myPage/postDetail" element={<PostDetailPage/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

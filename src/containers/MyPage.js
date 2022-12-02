@@ -14,7 +14,6 @@ function MyPage() {
     useEffect(()=>{
         axios.get('http://localhost:8080/getUser', {withCredentials: true}
         ).then(function (response) {
-            console.log(response);
             setNickName(response.data.nickname);
             setIntroComment(`안녕하세요 코린이입니다.^ㅁ^`);
             setEmail(response.data.email);
@@ -25,7 +24,6 @@ function MyPage() {
         axios.get('http://localhost:8080/board/myList', {withCredentials: true}
         ).then(function (response) {
             setPosts(response.data);
-            console.log(response);
         }).catch(function (error) {
             console.log(error);
         })
@@ -44,10 +42,6 @@ function MyPage() {
                 </div>
                 <hr style={{margin:"20px 0px"}}/>
 
-                {/*<p>*/}
-                {/*    {nickName}*/}
-                {/*    {introComment}*/}
-                {/*    {email}</p>*/}
                 <div className="landing_page_post_container">
                     {posts.map((element)=>(
                         <PostPreview key={element.id} postId={element.id} title={element.title} content={element.content}

@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './PostPreview.css';
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setPostInfo} from "../_features/postSlice";
+import {selectUser} from "../_features/userSlice";
+import axios from "axios";
 
 function PostPreview(props) {
     const dispatch=useDispatch();
+    const user= useSelector(selectUser);  //login할때 nickname도 받아와야겠다..
+    const [nickName, setNickName] = useState("");
+    const [isWriter, setIsWriter]=useState("false");
 
-    return (
-        <div className="post_preview"
-        onClick={()=>dispatch(setPostInfo({
+    const showPostDetail=(e)=>{
+        dispatch(setPostInfo({
             postId: props.postId,
             title: props.title,
             content: props.content,
@@ -18,9 +22,30 @@ function PostPreview(props) {
             hits: props.hits,
             comments: props.comments,
             imgURL: props.imgURL,
-        }))}>
+        }))
+
+        //login할때 nickname도 받아와야겠다..
+        axios.get('http://localhost:8080/getUser', {withCredentials: true}
+        ).then(function (response) {
+            setNickName(response.data.nickname);
+        }).catch(function (error) {
+            console.log(error);
+        })
+
+        if(user){
+            console.log(nickName);  //null나옴
+            console.log(props.writer);
+            if(nickName===props.writer){
+                setIsWriter("true");
+            }
+        }
+    }
+
+    return (
+        <div className="post_preview"
+        onClick={showPostDetail}>
             {/*클릭하면 게시글 상세 페이지로 이동*/}
-            <Link to="postDetail">
+            <Link to="postDetail" state={{isWriter: {isWriter}}}>
                 <img className="post_preview_img"
                      src={props.imgURL}
                      alt=""/>

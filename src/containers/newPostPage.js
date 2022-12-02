@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './newPostPage.css';
 import NavBar from "./NavBar";
 import {Link} from "react-router-dom";
@@ -15,8 +15,13 @@ import ImageImg from "../_img/Image.svg";
 import Code from "../_img/Code.svg";
 import Line from "../_img/Line 3.svg";
 import axios from "axios";
+import {useSelector} from "react-redux";
+import {selectPost} from "../_features/postSlice";
 
 function NewPostPage() {
+    //post 수정
+    const post=useSelector(selectPost);
+
     const [inputTitle, setInputTitle] = useState("");  //제목 저장
     const [inputCategory, setInputCategory]=useState("");  //카테고리 저장
     const [inputContent, setInputContent] = useState("");  //입력한 내용 저장
@@ -25,20 +30,34 @@ function NewPostPage() {
     const scrollFocus = useRef();
     const markDownFocus = useRef();  //markdown tool 사용시 내용 입력창에 focus 줌
 
+    useEffect(()=>{
+        if(post){
+            setInputTitle(post.title);
+            setInputContent(post.content);
+            setMarkDownContent(post.content);
+        }
+    },[]);
+
     //발행 버튼 클릭 이벤트
     const handleSubmitPost = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8080/board/writing',{title: inputTitle, content: inputContent, category: inputCategory, uploadDate: new Date()}, {withCredentials:true}
-        ).then(function (response){
-            console.log(response);
-            alert('글이 발행되었습니다.');
-            setInputTitle("");
-            setInputContent("");
-            setMarkDownContent("");
-        }).catch(function(error){
-            console.log(error);
-        });
+        if(post){  //수정된 post 발행
+            axios.put("http://localhost:8080/board/myList/update", {postId: post.postId, title: inputTitle, content: inputContent}, {withCredentials: true})
+                .then()
+                .catch();
+        }else{
+            axios.post('http://localhost:8080/board/writing',{title: inputTitle, content: inputContent, category: inputCategory, uploadDate: new Date()}, {withCredentials:true}
+            ).then(function (response){
+                console.log(response);
+                alert('글이 발행되었습니다.');
+                setInputTitle("");
+                setInputContent("");
+                setMarkDownContent("");
+            }).catch(function(error){
+                console.log(error);
+            });
+        }
     }
 
     //markDown tools

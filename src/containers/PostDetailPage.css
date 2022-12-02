@@ -21,6 +21,10 @@
     display: flex;
     font-size: 16px;
 }
+.post_detail_row_mod{
+    display: flex;
+    justify-content: space-between;
+}
 
 /*p태그 마진 빼기*/
 .post_detail_row >p{
@@ -35,6 +39,14 @@
     padding-top: 20px;
     padding-bottom: 80px;
     font-size: 16px;
+}
+/* 글 수정, 삭제 버튼 보임 */
+.post_modify{
+    visibility: visible;
+}
+/* 수정, 삭제 버튼 숨김 : 기본 */
+.post_modify_hidden{
+    visibility: hidden;
 }
 
 /*댓글들*/
