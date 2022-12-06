@@ -49,7 +49,6 @@ function NewPostPage() {
         }else{
             axios.post('http://localhost:8080/board/writing',{title: inputTitle, content: inputContent, category: inputCategory, uploadDate: new Date()}, {withCredentials:true}
             ).then(function (response){
-                console.log(response);
                 alert('글이 발행되었습니다.');
                 setInputTitle("");
                 setInputContent("");

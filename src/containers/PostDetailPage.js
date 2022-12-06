@@ -3,11 +3,11 @@ import './PostDetailPage.css';
 import NavBar from "./NavBar";
 import {Avatar} from "@mui/material";
 import Markdown from "marked-react";
-import Comment from "../components/Comment";
 import {useSelector} from "react-redux";
 import {selectPost} from "../_features/postSlice";
 import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
+import Comment from "../components/Comment";
 
 function PostDetailPage() {
     const post = useSelector(selectPost);
@@ -15,42 +15,12 @@ function PostDetailPage() {
     const location = useLocation();
     const isWriter = location.state.isWriter.isWriter;  //글쓴이는 글 수정/삭제할 수 있음.
     const markDownContent = post.content;
-    // '## 몇가지 용어 \n' +
-    // '> - 데이터 : 컴퓨터에 저장되어있고, 보낼 수 있는 모든 정보\n' +
-    // '> - 데이터베이스 : **구조를 가진** 데이터의 모임\n' +
-    // '> - 데이터 모델 : 데이터를 저장, 연결, 접근하는 방식 ex) Relational-Model\n' +
-    // '> - DBMS(Database Management System) : 데이터베이스에 있는 데이터를 관리하는 소프트웨어\n' +
-    // '> - Query : DBMS에 정보를 요정하는 문장\n' +
-    // '\n' +
-    // '### Database Schema vs Database Instance\n' +
-    // '> - Database Schema : 데이터베이스의 구조. meatadata라 한다. \n' +
-    // '> ex) department(dept_name, building, budget)\n' +
-    // '> - Database Instance : 실제 데이터. table에 들어있는 tuples\n' +
-    // '\n' +
-    // '## 데이터베이스 시스템\n' +
-    // '> ![](https://velog.velcdn.com/images/kksshh0612/post/355e133e-3bf0-4fec-92c0-1a65a9a249a8/image.png)\n' +
-    // '> - 데이터베이스 시스템 특징 \n' +
-    // '> 1. 데이터가 최소한의 중복으로 결합되어있다. \n' +
-    // '> 2. 동시에 많은 사용자가 같은 데이터베이스에 접근할 수 있다.\n' +
-    // '> 3. 사용자/관리자를 구분하는 것처럼, 여러 다른 view를 제공한다. \n' +
-    // '> 4. 사용자가 유효한 정보를 입력하고 데이터 무결성을 유지할 수 있도록 특정 제약 조건을 적용한다.\n' +
-    // '> 5. 백업과 복구가 가능하다. \n' +
-    // '\n' +
-    // '## SQL(Structured Query Language)\n' +
-    // '> 데이터베이스에 접근하고 관리할 때 쓰는 언어로, 절차지향 언어이다.\n' +
-    // '> ![](https://velog.velcdn.com/images/kksshh0612/post/6a2855b4-9139-4dc6-9697-c7c09b87ca77/image.png)\n' +
-    // '> - DDL : 데이터를 정의하는 언어 (테이블을 만들고 수정하는 언어)\n' +
-    // '> - DML : 데이터를 조작하는 언어 (데이터를 찾고, 삽입하고, 삭제하고, 수정하는 언어)\n' +
-    // '> - DCL : 데이터를 보호하는 언어 \n' +
-    // '> - TCL : 데이터의 보안, 무결성, 복구, 동시접근을 관리하는 언어 \n' +
-    // '\n' +
-    // '**meta-data == system catalog == data dictionary**\n'
+    const [inputComment, setInputComment] = useState("");
     const [comments, setComments] = useState([]);  //댓글 저장
 
     useEffect(() => {
-        axios.get('http://localhost:8080/', {withCredentials: true}
+        axios.post('http://localhost:8080/comment', {boardId: post.postId}, {withCredentials: true}
         ).then(function (response) {
-            console.log(response.data);
             setComments(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -69,6 +39,22 @@ function PostDetailPage() {
         }).catch(function (error) {
             console.log(error);
         });
+    }
+
+    const transmitComment = (e) => {
+        var utc = new Date().getTime() + (9 * 60 * 60 * 1000);
+        var kr_time = new Date(utc);
+        var write_time = kr_time.toISOString().slice(0, 19).replace('T', ' ');
+
+        axios.post('http://localhost:8080/comment/post',{writeTime: write_time,
+            boardId: post.postId,
+            content: inputComment}, {withCredentials: true}
+        ).then(function (response) {
+            console.log(response.data);
+            setComments(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
     }
 
     return (
@@ -122,16 +108,17 @@ function PostDetailPage() {
                         <p>개의 댓글</p>
                     </div>
                     <div className="post_detail_input_comment">
-                        <textarea placeholder="댓글을 입력해주세요."></textarea>
-                        <button>댓글 남기기</button>
+                        <textarea placeholder="댓글을 입력해주세요." value={inputComment}
+                                  onChange={(e) => setInputComment(e.target.value)}/>
+                        <button onClick={transmitComment}>댓글 남기기</button>
                     </div>
 
-                    {/*<div className="post_detail_comments">*/}
-                    {/*    {comments.map((element) => (*/}
-                    {/*        <Comment key={element.id} nickName={element.nickname} comment={element.comment}*/}
-                    {/*                 date={element.date}/>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
+                    <div className="post_detail_comments">
+                        {comments.map((element) => (
+                            <Comment key={element.id} nickName={element.nickname} comment={element.comment}
+                                     date={element.date}/>
+                        ))}
+                    </div>
 
                 </div>
             </div>

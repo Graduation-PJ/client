@@ -34,7 +34,7 @@ function MyPage() {
     const [email, setEmail]=useState();
     const [posts, setPosts]= useState([]);
 
-    useEffect(()=>{
+    useEffect((url, config)=>{
         axios.get('http://localhost:8080/getUser', {withCredentials: true}
         ).then(function (response) {
             setNickName(response.data.nickname);
@@ -52,9 +52,10 @@ function MyPage() {
         })
 
         //contribution
-        axios.get('http://localhost:8080/board/myList', {withCredentials: true}
-        ).then(function (response) {
-            setPosts(response.data);
+        // {params: {dateString: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`}},
+        axios.get(`http://localhost:8080/contributionData?dateString=${new Date().getFullYear() + '-' + (new Date().getMonth()+1)}`, {withCredentials: true}).then(function (response) {
+            // setPosts(response.data);
+            console.log(response.data);
         }).catch(function (error) {
             console.log(error);
         })
