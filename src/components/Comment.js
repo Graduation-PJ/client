@@ -2,17 +2,17 @@ import React from 'react';
 import './Comment.css';
 import {Avatar} from "@mui/material";
 
-function Comment() {
+function Comment(props) {
     return (
         <div className="comment">
             <div className="comment_row ">
                 <Avatar />
                 <div style={{margin:"0px 15px"}}>
-                    <p>성강</p>
-                    <p>좋은 글 감사합니다. 데베시는 참 어렵네요...</p>
+                    <p>{props.nickName}</p>
+                    <p>{props.comment}</p>
                     <div className="comment_row comment_row_center">
-                        <p>2022. 11. 11 05.07</p>
-                        <button>답글</button>
+                        <p>{props.date}</p>
+                        {/*<button>답글</button>*/}
                     </div>
                 </div>
             </div>

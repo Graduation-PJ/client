@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './PostDetailPage.css';
 import NavBar from "./NavBar";
 import {Avatar} from "@mui/material";
@@ -12,9 +12,8 @@ import axios from "axios";
 function PostDetailPage() {
     const post = useSelector(selectPost);
     const navigate = useNavigate();
-    const location= useLocation();
-    const isWriter=location.state.isWriter.isWriter;
-
+    const location = useLocation();
+    const isWriter = location.state.isWriter.isWriter;  //글쓴이는 글 수정/삭제할 수 있음.
     const markDownContent = post.content;
     // '## 몇가지 용어 \n' +
     // '> - 데이터 : 컴퓨터에 저장되어있고, 보낼 수 있는 모든 정보\n' +
@@ -46,6 +45,17 @@ function PostDetailPage() {
     // '> - TCL : 데이터의 보안, 무결성, 복구, 동시접근을 관리하는 언어 \n' +
     // '\n' +
     // '**meta-data == system catalog == data dictionary**\n'
+    const [comments, setComments] = useState([]);  //댓글 저장
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/', {withCredentials: true}
+        ).then(function (response) {
+            console.log(response.data);
+            setComments(response.data);
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }, []);
 
     const postModify = (e) => {  //게시글 수정 버튼
         e.preventDefault();
@@ -88,6 +98,7 @@ function PostDetailPage() {
                                 <p className="post_detail_comments post_detail_row_padding">{post.comments}</p>
                             </div>
                             <div className="post_detail_row">
+                                {/*글쓴이는 글을 수정/삭제할 수 있음. */}
                                 <button className={isWriter ? "post_modify" : "post_modify_hidden"}
                                         onClick={postModify}>수정
                                 </button>
@@ -115,14 +126,12 @@ function PostDetailPage() {
                         <button>댓글 남기기</button>
                     </div>
 
-                    <div className="post_detail_comments">
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                    </div>
+                    {/*<div className="post_detail_comments">*/}
+                    {/*    {comments.map((element) => (*/}
+                    {/*        <Comment key={element.id} nickName={element.nickname} comment={element.comment}*/}
+                    {/*                 date={element.date}/>*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
 
                 </div>
             </div>

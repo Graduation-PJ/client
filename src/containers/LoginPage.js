@@ -18,7 +18,6 @@ function LoginPage() {
         axios.post('http://localhost:8080/login/process', {
                 userId: id, userPassword: password}, {withCredentials: true}
         ).then(function (response) {
-
             axios.get('http://localhost:8080/', {withCredentials: true},
             ).then(function (response) {
                 dispatch(login({  //로그인
