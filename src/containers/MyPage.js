@@ -16,28 +16,42 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 function MyPage() {
-    const data = {
-        labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월','8월','9월','10월','11월','12월'],
-        datasets: [
-            {
-                type: 'line',
-                label: 'Dataset 1',
-                borderColor: 'rgb(54, 162, 235)',
-                borderWidth: 2,
-                data: [1, 2, 3, 4, 5],
-            },
-        ],
-    };
-
     const [nickName, setNickName]=useState();
     const [introComment, setIntroComment]=useState();
     const [email, setEmail]=useState();
     const [posts, setPosts]= useState([]);
+    const [contribution, setContribution]= useState([]);
+    const data = {
+        labels: ['1일', '2일', '3일', '4일', '5일', '6일', '7일','8일','9일','10일',
+            '11일', '12일', '13일', '14일', '15일', '16일', '17일','18일','19일','20일',
+            '21일', '22일', '23일', '24일', '25일', '26일', '27일','28일','29일','30일'],
+        datasets: [
+            {
+                type: 'line',
+                label: 'Contribution',
+                borderColor: '#ff7e5f',
+                borderWidth: 2,
+                data: contribution,
+            },
+        ],
+    };
+
+    const options={
+        scales: {
+            y: {
+                min: 0,
+                max: 10,
+                stepSize: 1,
+            }
+        }
+    };
 
     useEffect((url, config)=>{
         axios.get('http://localhost:8080/getUser', {withCredentials: true}
         ).then(function (response) {
+            console.log(response.data);
             setNickName(response.data.nickname);
+            // setIntroComment(response.data.intro_comment);
             setIntroComment(`안녕하세요 코린이입니다.^ㅁ^`);
             setEmail(response.data.email);
         }).catch(function (error) {
@@ -56,6 +70,7 @@ function MyPage() {
         axios.get(`http://localhost:8080/contributionData?dateString=${new Date().getFullYear() + '-' + (new Date().getMonth()+1)}`, {withCredentials: true}).then(function (response) {
             // setPosts(response.data);
             console.log(response.data);
+            setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
         })
@@ -73,17 +88,16 @@ function MyPage() {
                     </div>
                 </div>
                 <hr style={{margin:"20px 0px"}}/>
-
+                <h4>{new Date().getFullYear() + '년 ' + (new Date().getMonth()+1)+'월'}</h4>
+                <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
+                    <Line data={data} options={options} style={{width: "90vw" ,height: "50vh"}}/>
+                </div>
                 <div className="landing_page_post_container">
                     {posts.map((element)=>(
                         <PostPreview key={element.id} postId={element.id} title={element.title} content={element.content}
                                      writer={element.writer} regDate={element.regDate} hits={element.hits} comments={element.comments}
                                      imgURL="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjZfMjI4%2FMDAxNjY2NzIxOTIxNjk4.XEujLVjuXmu5lou860nFu97yWbWUdth6tHiQHRl5UBUg.W55nUYehJB_sFqqWfsjW0PilQVJBwzTlyZE5XyNK2f0g.PNG.xxunju%2F%25BD%25BA%25C5%25A9%25B8%25B0%25BC%25A6%2528882%2529.png&type=sc960_832"/>
                     ))}
-                </div>
-
-                <div className="my_contribution">
-                    <Line data={data}/>
                 </div>
             </div>
         </div>
