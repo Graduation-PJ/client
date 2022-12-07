@@ -17,11 +17,13 @@ function PostDetailPage() {
     const markDownContent = post.content;
     const [inputComment, setInputComment] = useState("");
     const [comments, setComments] = useState([]);  //댓글 저장
+    const [countComment, setCountComment]=useState(0);  //댓글 수 저장
 
     useEffect(() => {
         axios.post('http://localhost:8080/comment', {boardId: post.postId}, {withCredentials: true}
         ).then(function (response) {
             setComments(response.data);
+            setCountComment(response.data.length);
         }).catch(function (error) {
             console.log(error);
         })
@@ -50,11 +52,12 @@ function PostDetailPage() {
             boardId: post.postId,
             content: inputComment}, {withCredentials: true}
         ).then(function (response) {
-            console.log(response.data);
             setComments(response.data);
+            alert("댓글이 작성되었습니다.");
         }).catch(function (error) {
             console.log(error);
         })
+        navigate('/');
     }
 
     return (
@@ -78,10 +81,11 @@ function PostDetailPage() {
                         <div className="post_detail_row_mod">
                             <div className="post_detail_row">
                                 <p className="post_detail_date post_detail_row_padding">{post.regDate}</p>
-                                <p className="post_detail_row_padding">조회수 : </p>
+                                <p className="post_detail_row_padding">  조회수 : </p>
                                 <p className="post_detail_views post_detail_row_padding">{post.hits}</p>
                                 <p className="post_detail_row_padding">댓글 : </p>
-                                <p className="post_detail_comments post_detail_row_padding">{post.comments}</p>
+                                {/*<p className="post_detail_comments post_detail_row_padding">{post.comments}</p>*/}
+                                <p className="post_detail_comments post_detail_row_padding">{countComment}</p>
                             </div>
                             <div className="post_detail_row">
                                 {/*글쓴이는 글을 수정/삭제할 수 있음. */}
@@ -105,7 +109,7 @@ function PostDetailPage() {
                 <div className="post_detail_comments">
                     <div className="post_detail_row">
                         <p style={{fontWeight: "bold", paddingRight: "5px"}}>{post.comments}</p>
-                        <p>개의 댓글</p>
+                        <p>{countComment}개의 댓글</p>
                     </div>
                     <div className="post_detail_input_comment">
                         <textarea placeholder="댓글을 입력해주세요." value={inputComment}
@@ -115,8 +119,7 @@ function PostDetailPage() {
 
                     <div className="post_detail_comments">
                         {comments.map((element) => (
-                            <Comment key={element.id} nickName={element.nickname} comment={element.comment}
-                                     date={element.date}/>
+                            <Comment nickName={element.nickname} comment={element.content} date={element.write_time}/>
                         ))}
                     </div>
 
