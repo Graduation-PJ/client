@@ -1,8 +1,9 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './MyPage.css';
 import axios from "axios";
 import NavBar from "./NavBar";
 import {Avatar} from "@mui/material";
+import Edit from "../_img/Edit.svg";
 import PostPreview from "../components/PostPreview";
 import { Line } from 'react-chartjs-2';
 import {
@@ -12,12 +13,17 @@ import {
     PointElement,
     LineElement,
 } from "chart.js";
+import H1 from "../_img/H1.svg";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 function MyPage() {
     const [nickName, setNickName]=useState();
     const [introComment, setIntroComment]=useState();
+    const introCommentRef=useRef();
+    const editIntroCommentButtonRef=useRef();
+    const editIntroCommentRef= useRef();
+    const submitEditIntroCommentRef=useRef();
     const [email, setEmail]=useState();
     const [posts, setPosts]= useState([]);
     const [contribution, setContribution]= useState([]);
@@ -68,8 +74,12 @@ function MyPage() {
         ).then(function (response) {
             console.log(response.data);
             setNickName(response.data.nickname);
-            // setIntroComment(response.data.intro_comment);
-            setIntroComment(`안녕하세요 코린이입니다.^ㅁ^`);
+            console.log(response.data.intro_comment);
+            if(response.data.intro_comment){
+                setIntroComment(response.data.intro_comment);
+            }else{
+                setIntroComment(`안녕하세요 코린이입니다.^ㅁ^`);
+            }
             setEmail(response.data.email);
         }).catch(function (error) {
             console.log(error);
@@ -77,7 +87,6 @@ function MyPage() {
         //글 정보가 다 안온다
         axios.get('http://localhost:8080/board/myList', {withCredentials: true}
         ).then(function (response) {
-            console.log(response.data);
             setPosts(response.data);
         }).catch(function (error) {
             console.log(error);
@@ -86,13 +95,35 @@ function MyPage() {
         //contribution
         // {params: {dateString: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`}},
         axios.get(`http://localhost:8080/contributionData?dateString=${new Date().getFullYear() + '-' + (new Date().getMonth()+1)}`, {withCredentials: true}).then(function (response) {
-            console.log(response.data);
             setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
         })
-        console.log(posts);
     },[]);
+
+    //자기소개 수정
+    const EditIntroComment=()=>{
+        const editIntroCommentButton=editIntroCommentButtonRef.current;
+        editIntroCommentButton.className="introComment_hidden";
+        const introComment= introCommentRef.current;
+        introComment.className="introComment_hidden";
+        const editIntroComment=editIntroCommentRef.current;
+        editIntroComment.className="editIntroComment"
+        const submitEditIntroComment=submitEditIntroCommentRef.current;
+        submitEditIntroComment.className="submitEditIntroComment"
+    }
+
+    //자기소개 수정 완료
+    const SubmitEditIntroComment=()=>{
+        const editIntroCommentButton=editIntroCommentButtonRef.current;
+        editIntroCommentButton.className="tool_hover";
+        const editIntroComment=editIntroCommentRef.current;
+        editIntroComment.className="introComment_hidden";
+        const submitEditIntroComment=submitEditIntroCommentRef.current;
+        submitEditIntroComment.className="introComment_hidden";
+        const introComment= introCommentRef.current;
+        introComment.className="introComment"
+    }
 
     return (
         <div className="my_page">
@@ -102,7 +133,13 @@ function MyPage() {
                     <Avatar />
                     <div>
                         <p className="my_page_info" style={{fontSize:"16px"}}>{nickName}</p>
-                        <p className="my_page_info" style={{fontSize:"14px"}}>{introComment}</p>
+                        <div style={{display:"flex" }}>
+                            <p ref={introCommentRef} className="introComment" style={{fontSize:"14px", maxWidth:"40vw"}}>{introComment}</p>
+                            <textarea ref={editIntroCommentRef} className="introComment_hidden" type="text" placeholder="자기소개를 해주세요." value={introComment} onChange={(e)=>setIntroComment(e.target.value)}/>
+                            <button ref={submitEditIntroCommentRef} className="introComment_hidden" onClick={SubmitEditIntroComment} >수정완료</button>
+                            {/*자기소개 수정 버튼*/}
+                            <img ref={editIntroCommentButtonRef} className="tool_hover" style={{marginBottom: "9px", paddingLeft:"5px", paddingRight:"5px"}} src={Edit} alt="" onClick={EditIntroComment}/>
+                        </div>
                     </div>
                 </div>
                 <hr style={{margin:"20px 0px"}}/>
