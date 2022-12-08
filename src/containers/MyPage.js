@@ -37,12 +37,29 @@ function MyPage() {
     };
 
     const options={
+        // xAxis:{
+        //     visible:false,
+        // },
         scales: {
+            x:{
+                // display:false,
+            },
             y: {
+                // display: false,
                 min: 0,
                 max: 10,
                 stepSize: 1,
-            }
+            },
+            // xAxis:{
+            //     visible: false,
+            //     lineWidth: 0,
+            //     minorGridLineWidth: 0,
+            // },
+            // yAxis:{
+            //     visible: false,
+            //     lineWidth: 0,
+            //     minorGridLineWidth: 0,
+            // },
         }
     };
 

@@ -43,9 +43,13 @@ function NavBar() {
                     </span>
                 {/*글쓰기 링크*/}
                 <span className="menu_link">
-                    <Link to={user && '/newPost'}>
-                        <span onClick={handleLogIn}>글쓰기</span></Link>
-                    </span>
+                    {/*<Link to={user && '/newPost'}>*/}
+                        <Link to={'/newPost'}>
+                            {/*<span onClick={handleLogIn}>글쓰기</span>*/}
+                            <span >글쓰기</span>
+                        </Link>
+                    {/*</Link>*/}
+                </span>
                 {/*마이페이지 링크*/}
                 <span className="menu_link">
                     <Link to={user && '/myPage'}>

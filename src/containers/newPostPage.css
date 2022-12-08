@@ -74,6 +74,11 @@
     background: var(--color-shadow-line);
 }
 
+#chooseFile{
+    visibility: hidden;
+    width: 0px;
+}
+
 /*내용 입력 칸*/
 .writing_post_input_content {
     width: 100%;

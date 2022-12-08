@@ -29,6 +29,8 @@ function NewPostPage() {
     let insertMarkDown;
     const scrollFocus = useRef();
     const markDownFocus = useRef();  //markdown tool 사용시 내용 입력창에 focus 줌
+    const imgReference=useRef();  //img
+    const markdownImgReference= useRef();
 
     useEffect(()=>{
         if(post){
@@ -47,6 +49,7 @@ function NewPostPage() {
                 .then()
                 .catch();
         }else{
+            //새로운 post 발행
             axios.post('http://localhost:8080/board/writing',{title: inputTitle, content: inputContent, category: inputCategory, uploadDate: new Date()}, {withCredentials:true}
             ).then(function (response){
                 alert('글이 발행되었습니다.');
@@ -93,7 +96,6 @@ function NewPostPage() {
         markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
     }
-
     const MarkDownH4 = (e) => {
         e.preventDefault();
         insertMarkDown = "\n#### ";
@@ -105,7 +107,6 @@ function NewPostPage() {
         markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
     }
-
     const MarkDownBold = (e) => {
         e.preventDefault();
         insertMarkDown = "\n****";
@@ -117,7 +118,6 @@ function NewPostPage() {
         markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
     }
-
     const MarkDownItalic = (e) => {
         e.preventDefault();
         insertMarkDown = "\n**";
@@ -140,19 +140,17 @@ function NewPostPage() {
         markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
     }
-
-    const MarkDownImg = (e) => {
-        e.preventDefault();
-        insertMarkDown = "\n[이미지 이름](이미지파일경로.jpg)";
-
-        setInputContent(inputContent + insertMarkDown);
-        markDownFocus.current.focus();  //커서 위치 input textarea에 맞춤
-        //textarea 크기 확장
-        markDownFocus.current.style.height = "50px";
-        markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
-        window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
-    }
-
+    // const MarkDownImg = (e) => {
+    //     e.preventDefault();
+    //     insertMarkDown = "\n[이미지 이름](이미지파일경로.jpg)";
+    //
+    //     setInputContent(inputContent + insertMarkDown);
+    //     markDownFocus.current.focus();  //커서 위치 input textarea에 맞춤
+    //     //textarea 크기 확장
+    //     markDownFocus.current.style.height = "50px";
+    //     markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
+    //     window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
+    // }
     const MarkDownCode = (e) => {
         e.preventDefault();
         insertMarkDown = "\n```\n코드를 입력하세요\n```";
@@ -178,13 +176,19 @@ function NewPostPage() {
         setMarkDownContent(content);  //엔터키 마크다운 문법 반영
     }
 
+    //이미지 업로드
     const loadFile=(e)=>{
         var file= e.target.files[0];
 
-        var newImage= document.getElementById("img");
+        const newImage= imgReference.current;
         newImage.src=URL.createObjectURL(file);
-        newImage=document.getElementById('img').lastElementChild;
-        // newImage.style.visibility="visible";
+        newImage.style.width="500px";
+        newImage.style.visibility="visible";
+        
+        const markdownNewImage= markdownImgReference.current;
+        markdownNewImage.src=URL.createObjectURL(file);
+        markdownNewImage.style.width="500px";
+        markdownNewImage.style.visibility="visible";
     }
 
     return (
@@ -207,11 +211,11 @@ function NewPostPage() {
                 </div>
                 {/*글 작성 공간*/}
                 <div className="writing_post_container">
+                    {/*제목 입력*/}
+                    <input type="text" className="writing_post_input_title" placeholder="제목을 입력하세요." required
+                           value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
+                    <hr/>
                     <div style={{position:"sticky", top:"0px", background: "white", paddingBottom:"20px"}}>
-                        {/*제목 입력*/}
-                        <input type="text" className="writing_post_input_title" placeholder="제목을 입력하세요." required
-                               value={inputTitle} onChange={(e) => setInputTitle(e.target.value)}/>
-                        <hr/>
                         <div className="markdown_tools_container">
                             <img className="markdown_tool tool_hover" src={H1} alt="" onClick={MarkDownH1}/>
                             <img className="markdown_tool tool_hover" src={H2} alt="" onClick={MarkDownH2}/>
@@ -222,14 +226,17 @@ function NewPostPage() {
                             <img className="markdown_tool tool_hover" src={Italic} alt="" onClick={MarkDownItalic}/>
                             <img className="markdown_tool" src={Line} alt=""/>
                             <img className="markdown_tool tool_hover" src={LinkImg} alt="" onClick={MarkDownLink}/>
-                            <img className="markdown_tool tool_hover" src={ImageImg} alt="" onClick={MarkDownImg}/>
+                            {/*이미지 파일 업로드*/}
+                            <label htmlFor="chooseFile">
+                                <img className="markdown_tool tool_hover" src={ImageImg} alt=""/>
+                            </label>
+                            <input type="file" id="chooseFile" name="picture" size="50" accept="image/*"
+                                   onChange={loadFile}/>
                             <img className="markdown_tool tool_hover" src={Code} alt="" onClick={MarkDownCode}/>
-
-                            <input type="file" id="chooseFile" name="picture" size="50" accept="image/*" onChange={loadFile}/>
-                            <img id="img" src={ImageImg} style={{width: "500px", height: "500px"}} />
                         </div>
                     </div>
                     {/*업로드 내용 입력*/}
+                    <img ref={imgReference} src={ImageImg} style={{width:"0px", visibility: "hidden"}} />
                     <textarea className="writing_post_input_content" placeholder="내용을 입력하세요." required
                               value={inputContent} onChange={(e) => replaceBrTag(e.target.value)}
                               onKeyDown={resize} onKeyUp={resize} ref={markDownFocus}/>
@@ -238,11 +245,12 @@ function NewPostPage() {
             {/*작성한 글 미리보기 페이지*/}
             <div className="markdown_post">
                 <NavBar/> {/*작성한 글 미리보기 페이지 네비게이션 바*/}
-                <div className="markdown_post_container">
+                <div className="markdown_post_container" style={{overflow: "auto"}}>
                     <div className="markdown_title">
                         <p>{inputTitle}</p>
                     </div>
                     <div className="markdown_content">
+                        <img ref={markdownImgReference} src={ImageImg} style={{width:"0px", visibility: "hidden"}} />
                         <Markdown>{markDownContent}</Markdown>
                     </div>
                 </div>
