@@ -4,9 +4,11 @@ import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {logout, selectUser} from "../_features/userSlice";
+import {popPostInfo, selectPost} from "../_features/postSlice";
 
 function NavBar() {
     const user = useSelector(selectUser);
+    const post= useSelector(selectPost);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -21,9 +23,17 @@ function NavBar() {
         }
     }
 
-    const handleLogIn=()=>{
-        if(!user){
+    const handleLogIn = () => {
+        if (!user) {
             alert('로그인이 필요합니다.');
+        }
+    }
+    const handleNewPost=()=>{
+        if (!user) {
+            alert('로그인이 필요합니다.');
+        }
+        if(post){
+            dispatch(popPostInfo());
         }
     }
 
@@ -43,12 +53,9 @@ function NavBar() {
                     </span>
                 {/*글쓰기 링크*/}
                 <span className="menu_link">
-                    {/*<Link to={user && '/newPost'}>*/}
-                        <Link to={'/newPost'}>
-                            {/*<span onClick={handleLogIn}>글쓰기</span>*/}
-                            <span >글쓰기</span>
-                        </Link>
-                    {/*</Link>*/}
+                    <Link to={user && '/newPost'}>
+                            <span onClick={handleNewPost}>글쓰기</span>
+                    </Link>
                 </span>
                 {/*마이페이지 링크*/}
                 <span className="menu_link">
