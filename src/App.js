@@ -6,7 +6,6 @@ import RegisterPage from "./containers/RegisterPage";
 import NewPostPage from "./containers/newPostPage";
 import MyPage from "./containers/MyPage";
 import PostDetailPage from "./containers/PostDetailPage";
-import Profile from "./containers/Profile";
 
 function App() {
     return (
@@ -21,7 +20,6 @@ function App() {
                     <Route path="/postDetail" element={<PostDetailPage/>}/>
                     <Route path="/myPage" element={<MyPage/>}/>
                     <Route path="/myPage/postDetail" element={<PostDetailPage/>}/>
-                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </BrowserRouter>
         </div>

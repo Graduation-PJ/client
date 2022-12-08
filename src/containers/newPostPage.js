@@ -205,7 +205,7 @@ function NewPostPage() {
                 <div className="writing_post_nav_bar"> {/*글쓰기 페이지 네비게이션 바*/}
                     <Link to="/">
                         <div className="writing_post_logo">
-                            <span style={{color: "black"}}>로고</span>
+                            <span style={{color: "black"}}>Graduate</span>
                         </div>
                     </Link>
                     <div className="nav_menu">

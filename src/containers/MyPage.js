@@ -5,28 +5,27 @@ import NavBar from "./NavBar";
 import {Avatar} from "@mui/material";
 import Edit from "../_img/Edit.svg";
 import PostPreview from "../components/PostPreview";
-import { Line } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-} from "chart.js";
-import H1 from "../_img/H1.svg";
+import ArrowBack from "../_img/Arrow_back.svg";
+import ArrowForward from "../_img/Arrow-forward.svg";
+import {Line} from 'react-chartjs-2';
+import {CategoryScale, Chart as ChartJS, LinearScale, LineElement, PointElement,} from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 function MyPage() {
     const [nickName, setNickName]=useState();
+    //profile 회원의 인삿말
     const [introComment, setIntroComment]=useState();
     const introCommentRef=useRef();
     const editIntroCommentButtonRef=useRef();
     const editIntroCommentRef= useRef();
     const submitEditIntroCommentRef=useRef();
+
     const [email, setEmail]=useState();
-    const [posts, setPosts]= useState([]);
-    const [contribution, setContribution]= useState([]);
+    const [posts, setPosts]= useState([]);  //profile 회원이 쓴 글들 저장
+    const [contribution, setContribution]= useState([]);  //contribution 그래프 data 저장
+    const [year, setYear]= useState(new Date().getFullYear()); //해
+    const [month, setMonth]= useState(new Date().getMonth()+1); //달
     const getImgSrcRegExp = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/;
     const data = {
         labels: ['1일', '2일', '3일', '4일', '5일', '6일', '7일','8일','9일','10일',
@@ -72,9 +71,7 @@ function MyPage() {
     useEffect((url, config)=>{
         axios.get('http://localhost:8080/getUser', {withCredentials: true}
         ).then(function (response) {
-            console.log(response.data);
             setNickName(response.data.nickname);
-            console.log(response.data.intro_comment);
             if(response.data.intro_comment){
                 setIntroComment(response.data.intro_comment);
             }else{
@@ -94,7 +91,7 @@ function MyPage() {
 
         //contribution
         // {params: {dateString: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`}},
-        axios.get(`http://localhost:8080/contributionData?dateString=${new Date().getFullYear() + '-' + (new Date().getMonth()+1)}`, {withCredentials: true}).then(function (response) {
+        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + month}`, {withCredentials: true}).then(function (response) {
             setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
@@ -144,8 +141,12 @@ function MyPage() {
                 </div>
                 <hr style={{margin:"20px 0px"}}/>
                 <h4>{new Date().getFullYear() + '년 ' + (new Date().getMonth()+1)+'월'}</h4>
-                <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
-                    <Line data={data} options={options} style={{width: "90vw" ,height: "20vh"}}/>
+                <div style={{display: "flex", alignItems: "center"}}>
+                    <img className="tool_hover arrow"  src={ArrowBack} alt="" onClick={(e)=>{}}/>
+                    <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
+                        <Line data={data} options={options} style={{width: "54vw" ,height: "20vh"}}/>
+                    </div>
+                    <img className="tool_hover arrow" src={ArrowForward} alt="" onClick={(e)=>{}}/>
                 </div>
             </div>
             <div className="landing_page_post_container" style={{width: "80%", marginLeft :"auto", marginRight: "auto"}}>

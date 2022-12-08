@@ -41,7 +41,7 @@ function NavBar() {
         <div className="nav_bar">
             <Link to="/">
                 <div className="logo">
-                    <span>로고</span>
+                    <span>Graduate</span>
                 </div>
             </Link>
 

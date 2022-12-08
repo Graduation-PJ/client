@@ -5,7 +5,7 @@ import {Avatar} from "@mui/material";
 import Markdown from "marked-react";
 import {useSelector} from "react-redux";
 import {selectPost} from "../_features/postSlice";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import Comment from "../components/Comment";
 
@@ -20,6 +20,7 @@ function PostDetailPage() {
     const hitCount=post.hits+1;
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         axios.post('http://localhost:8080/comment', {boardId: post.postId}, {withCredentials: true}
         ).then(function (response) {
             setComments(response.data);
@@ -70,7 +71,9 @@ function PostDetailPage() {
                 <p className="post_detail_title">{post.title}</p>
 
                 <div className="post_detail_row">
-                    <Avatar/>
+                    <Link to='/myPage'>
+                        <Avatar/>
+                    </Link>
                     <div style={{
                         width: '100%',
                         paddingLeft: '10px',
