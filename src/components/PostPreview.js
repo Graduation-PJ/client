@@ -1,20 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './PostPreview.css';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setPostInfo} from "../_features/postSlice";
 import {selectUser} from "../_features/userSlice";
-import axios from "axios";
 
 function PostPreview(props) {
     const dispatch=useDispatch();
     const user= useSelector(selectUser);  //login할때 nickname도 받아와야겠다..
-    const [nickName, setNickName] = useState("");
-    const [isWriter, setIsWriter]=useState("false");
+    var isWriter=false;
 
     const showPostDetail=(e)=>{
+        if(user){
+            if(user.uid.valueOf()==props.userId.valueOf()){
+                isWriter="true";
+            }else{
+                isWriter="false";
+            }
+        }
+
         dispatch(setPostInfo({
             postId: props.postId,
+            userId: props.userId,
             title: props.title,
             content: props.content,
             writer: props.writer,
@@ -22,24 +29,8 @@ function PostPreview(props) {
             hits: props.hits,
             comments: props.comments,
             imgURL: props.imgURL,
+            isWriter: isWriter,
         }))
-
-        //login할때 nickname도 받아와야겠다..
-        axios.get('http://localhost:8080/getUser', {withCredentials: true}
-        ).then(function (response) {
-            setNickName(response.data.nickname);
-        }).catch(function (error) {
-            console.log(error);
-        })
-
-        console.log(isWriter);
-        if(user){
-            console.log(nickName);  //null나옴
-            console.log(props.writer);
-            if(nickName===props.writer){
-                setIsWriter("true");
-            }
-        }
     }
 
     return (

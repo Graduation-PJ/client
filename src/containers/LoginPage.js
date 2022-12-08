@@ -20,6 +20,7 @@ function LoginPage() {
         ).then(function (response) {
             axios.get('http://localhost:8080/', {withCredentials: true},
             ).then(function (response) {
+                console.log(response.data);
                 dispatch(login({  //로그인
                     uid: response.data
                 }))

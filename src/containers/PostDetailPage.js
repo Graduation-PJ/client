@@ -5,15 +5,14 @@ import {Avatar} from "@mui/material";
 import Markdown from "marked-react";
 import {useSelector} from "react-redux";
 import {selectPost} from "../_features/postSlice";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import Comment from "../components/Comment";
 
 function PostDetailPage() {
     const post = useSelector(selectPost);
     const navigate = useNavigate();
-    const location = useLocation();
-    const isWriter = location.state.isWriter.isWriter;  //글쓴이는 글 수정/삭제할 수 있음.
+    const isWriter=post.isWriter;  //글쓴이는 글 수정/삭제할 수 있음.
     const markDownContent = post.content;
     const [inputComment, setInputComment] = useState("");
     const [comments, setComments] = useState([]);  //댓글 저장
@@ -28,12 +27,9 @@ function PostDetailPage() {
         }).catch(function (error) {
             console.log(error);
         })
-
-        console.log(isWriter);
         axios.put("http://localhost:8080/board/update_hits", {postId: post.postId, hits: hitCount} , {withCredentials: true})
             .then()
             .catch();
-
     }, []);
 
     const postModify = (e) => {  //게시글 수정 버튼
@@ -91,15 +87,14 @@ function PostDetailPage() {
                                 <p className="post_detail_row_padding">    조회수 : </p>
                                 <p className="post_detail_views post_detail_row_padding">{hitCount}</p>
                                 <p className="post_detail_row_padding">댓글 : </p>
-                                {/*<p className="post_detail_comments post_detail_row_padding">{post.comments}</p>*/}
                                 <p className="post_detail_comments post_detail_row_padding">{countComment}</p>
                             </div>
                             <div className="post_detail_row">
                                 {/*글쓴이는 글을 수정/삭제할 수 있음. */}
-                                <button className={isWriter ? "post_modify" : "post_modify_hidden"}
+                                <button className={isWriter==="true" ? "post_modify" : "post_modify_hidden"}
                                         onClick={postModify}>수정
                                 </button>
-                                <button className={isWriter ? "post_modify" : "post_modify_hidden"}
+                                <button className={isWriter==="true" ? "post_modify" : "post_modify_hidden"}
                                         onClick={postDelete}>삭제
                                 </button>
                             </div>
