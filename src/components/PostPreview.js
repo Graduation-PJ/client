@@ -32,6 +32,7 @@ function PostPreview(props) {
             console.log(error);
         })
 
+        console.log(isWriter);
         if(user){
             console.log(nickName);  //null나옴
             console.log(props.writer);

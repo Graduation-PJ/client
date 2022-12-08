@@ -21,6 +21,7 @@ function MyPage() {
     const [email, setEmail]=useState();
     const [posts, setPosts]= useState([]);
     const [contribution, setContribution]= useState([]);
+    const getImgSrcRegExp = /!\[[^\]]*\]\((.*?)\s*("(?:.*[^"])")?\s*\)/;
     const data = {
         labels: ['1일', '2일', '3일', '4일', '5일', '6일', '7일','8일','9일','10일',
             '11일', '12일', '13일', '14일', '15일', '16일', '17일','18일','19일','20일',
@@ -85,12 +86,12 @@ function MyPage() {
         //contribution
         // {params: {dateString: `${new Date().getFullYear()}-${new Date().getMonth() + 1}`}},
         axios.get(`http://localhost:8080/contributionData?dateString=${new Date().getFullYear() + '-' + (new Date().getMonth()+1)}`, {withCredentials: true}).then(function (response) {
-            // setPosts(response.data);
             console.log(response.data);
             setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
         })
+        console.log(posts);
     },[]);
 
     return (
@@ -109,14 +110,14 @@ function MyPage() {
                 <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
                     <Line data={data} options={options} style={{width: "90vw" ,height: "20vh"}}/>
                 </div>
-                <div className="landing_page_post_container">
-                    {posts.map((element)=>(
-                        //댓글 수 추가해야함.
-                        <PostPreview key={element.board_id} postId={element.board_id} title={element.title} content={element.content}
-                                     writer={element.nickname} regDate={element.upload_date} hits={element.hit_count} comments={element.comments}
-                                     imgURL="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjZfMjI4%2FMDAxNjY2NzIxOTIxNjk4.XEujLVjuXmu5lou860nFu97yWbWUdth6tHiQHRl5UBUg.W55nUYehJB_sFqqWfsjW0PilQVJBwzTlyZE5XyNK2f0g.PNG.xxunju%2F%25BD%25BA%25C5%25A9%25B8%25B0%25BC%25A6%2528882%2529.png&type=sc960_832"/>
-                    ))}
-                </div>
+            </div>
+            <div className="landing_page_post_container" style={{width: "80%", marginLeft :"auto", marginRight: "auto"}}>
+                {posts.map((element)=>(
+                    //댓글 수 추가해야함.
+                    <PostPreview key={element.id} postId={element.board_id} title={element.title} content={element.content}
+                                 writer={element.nickname} regDate={element.upload_date} hits={element.hit_count} comments={element.comments}
+                                 imgURL={getImgSrcRegExp.exec(element.content) !== null ? getImgSrcRegExp.exec(element.content)[1]: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjZfMjI4%2FMDAxNjY2NzIxOTIxNjk4.XEujLVjuXmu5lou860nFu97yWbWUdth6tHiQHRl5UBUg.W55nUYehJB_sFqqWfsjW0PilQVJBwzTlyZE5XyNK2f0g.PNG.xxunju%2F%25BD%25BA%25C5%25A9%25B8%25B0%25BC%25A6%2528882%2529.png&type=sc960_832"} />
+                ))}
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ function PostDetailPage() {
             console.log(error);
         })
 
-        console.log(hitCount);
+        console.log(isWriter);
         axios.put("http://localhost:8080/board/update_hits", {postId: post.postId, hits: hitCount} , {withCredentials: true})
             .then()
             .catch();
