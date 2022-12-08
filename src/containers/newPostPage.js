@@ -14,6 +14,7 @@ import LinkImg from "../_img/Link.svg";
 import ImageImg from "../_img/Image.svg";
 import Code from "../_img/Code.svg";
 import Line from "../_img/Line 3.svg";
+import PreviewPicture from "../_img/PreviewPicture.svg";
 import axios from "axios";
 import {useSelector} from "react-redux";
 import {selectPost} from "../_features/postSlice";
@@ -29,8 +30,10 @@ function NewPostPage() {
     let insertMarkDown;
     const scrollFocus = useRef();
     const markDownFocus = useRef();  //markdown tool 사용시 내용 입력창에 focus 줌
+    const textAreaRef=useRef();  //사진 삽입시 내용입력칸이 늘어나야함.
     const imgReference=useRef();  //img
     const markdownImgReference= useRef();
+    const markDownScrollRef= useRef();
 
     useEffect(()=>{
         if(post){
@@ -140,17 +143,17 @@ function NewPostPage() {
         markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
     }
-    // const MarkDownImg = (e) => {
-    //     e.preventDefault();
-    //     insertMarkDown = "\n[이미지 이름](이미지파일경로.jpg)";
-    //
-    //     setInputContent(inputContent + insertMarkDown);
-    //     markDownFocus.current.focus();  //커서 위치 input textarea에 맞춤
-    //     //textarea 크기 확장
-    //     markDownFocus.current.style.height = "50px";
-    //     markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
-    //     window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
-    // }
+    const MarkDownImg = (e) => {
+        e.preventDefault();
+        insertMarkDown = "\n![이미지 이름](이미지파일경로.jpg)";
+
+        setInputContent(inputContent + insertMarkDown);
+        markDownFocus.current.focus();  //커서 위치 input textarea에 맞춤
+        //textarea 크기 확장
+        markDownFocus.current.style.height = "50px";
+        markDownFocus.current.style.height = markDownFocus.current.scrollHeight + "px";
+        window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
+    }
     const MarkDownCode = (e) => {
         e.preventDefault();
         insertMarkDown = "\n```\n코드를 입력하세요\n```";
@@ -168,6 +171,7 @@ function NewPostPage() {
         obj.target.style.height = "1px";
         obj.target.style.height = obj.target.scrollHeight + "px";
         window.scrollTo(0, document.body.scrollHeight);  //스크롤 위치 맨 아래에 고정
+        // markDownScrollRef.
     }
 
     const replaceBrTag = (content) => {
@@ -184,7 +188,10 @@ function NewPostPage() {
         newImage.src=URL.createObjectURL(file);
         newImage.style.width="500px";
         newImage.style.visibility="visible";
-        
+
+        const textAreaScroll= textAreaRef.current;
+        console.log(textAreaRef);
+        // textAreaScroll.style.height=
         const markdownNewImage= markdownImgReference.current;
         markdownNewImage.src=URL.createObjectURL(file);
         markdownNewImage.style.width="500px";
@@ -226,18 +233,19 @@ function NewPostPage() {
                             <img className="markdown_tool tool_hover" src={Italic} alt="" onClick={MarkDownItalic}/>
                             <img className="markdown_tool" src={Line} alt=""/>
                             <img className="markdown_tool tool_hover" src={LinkImg} alt="" onClick={MarkDownLink}/>
+                            <img className="markdown_tool tool_hover" src={ImageImg} onClick={MarkDownImg} alt=""/>
+                            <img className="markdown_tool tool_hover" src={Code} alt="" onClick={MarkDownCode}/>
                             {/*이미지 파일 업로드*/}
-                            <label htmlFor="chooseFile">
-                                <img className="markdown_tool tool_hover" src={ImageImg} alt=""/>
+                            <label htmlFor="chooseFile" style={{height: "36px"}}>
+                                <img className="markdown_tool tool_hover" src={PreviewPicture} alt=""/>
                             </label>
                             <input type="file" id="chooseFile" name="picture" size="50" accept="image/*"
                                    onChange={loadFile}/>
-                            <img className="markdown_tool tool_hover" src={Code} alt="" onClick={MarkDownCode}/>
                         </div>
                     </div>
                     {/*업로드 내용 입력*/}
                     <img ref={imgReference} src={ImageImg} style={{width:"0px", visibility: "hidden"}} />
-                    <textarea className="writing_post_input_content" placeholder="내용을 입력하세요." required
+                    <textarea ref={textAreaRef} className="writing_post_input_content" placeholder="내용을 입력하세요." required
                               value={inputContent} onChange={(e) => replaceBrTag(e.target.value)}
                               onKeyDown={resize} onKeyUp={resize} ref={markDownFocus}/>
                 </div>
@@ -245,7 +253,7 @@ function NewPostPage() {
             {/*작성한 글 미리보기 페이지*/}
             <div className="markdown_post">
                 <NavBar/> {/*작성한 글 미리보기 페이지 네비게이션 바*/}
-                <div className="markdown_post_container" style={{overflow: "auto"}}>
+                <div ref={markDownScrollRef} className="markdown_post_container" >
                     <div className="markdown_title">
                         <p>{inputTitle}</p>
                     </div>

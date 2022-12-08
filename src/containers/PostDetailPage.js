@@ -18,6 +18,7 @@ function PostDetailPage() {
     const [inputComment, setInputComment] = useState("");
     const [comments, setComments] = useState([]);  //댓글 저장
     const [countComment, setCountComment]=useState(0);  //댓글 수 저장
+    const hitCount=post.hits+1;
 
     useEffect(() => {
         axios.post('http://localhost:8080/comment', {boardId: post.postId}, {withCredentials: true}
@@ -27,6 +28,12 @@ function PostDetailPage() {
         }).catch(function (error) {
             console.log(error);
         })
+
+        console.log(hitCount);
+        axios.put("http://localhost:8080/board/update_hits", {postId: post.postId, hits: hitCount} , {withCredentials: true})
+            .then()
+            .catch();
+
     }, []);
 
     const postModify = (e) => {  //게시글 수정 버튼
@@ -81,8 +88,8 @@ function PostDetailPage() {
                         <div className="post_detail_row_mod">
                             <div className="post_detail_row">
                                 <p className="post_detail_date post_detail_row_padding">{post.regDate}</p>
-                                <p className="post_detail_row_padding">  조회수 : </p>
-                                <p className="post_detail_views post_detail_row_padding">{post.hits}</p>
+                                <p className="post_detail_row_padding">    조회수 : </p>
+                                <p className="post_detail_views post_detail_row_padding">{hitCount}</p>
                                 <p className="post_detail_row_padding">댓글 : </p>
                                 {/*<p className="post_detail_comments post_detail_row_padding">{post.comments}</p>*/}
                                 <p className="post_detail_comments post_detail_row_padding">{countComment}</p>

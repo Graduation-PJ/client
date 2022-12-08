@@ -29,20 +29,21 @@ function MyPage() {
             {
                 type: 'line',
                 label: 'Contribution',
+                data: contribution,
                 borderColor: '#ff7e5f',
                 borderWidth: 2,
-                data: contribution,
             },
         ],
     };
 
     const options={
+        maintainAspectRatio: false,
         // xAxis:{
         //     visible:false,
         // },
         scales: {
             x:{
-                // display:false,
+                display:false,
             },
             y: {
                 // display: false,
@@ -50,14 +51,12 @@ function MyPage() {
                 max: 10,
                 stepSize: 1,
             },
-            // xAxis:{
-            //     visible: false,
-            //     lineWidth: 0,
-            //     minorGridLineWidth: 0,
-            // },
+            xAxis:{
+                visible: false,
+                // minorGridLineWidth: 0,
+            },
             // yAxis:{
             //     visible: false,
-            //     lineWidth: 0,
             //     minorGridLineWidth: 0,
             // },
         }
@@ -108,7 +107,7 @@ function MyPage() {
                 <hr style={{margin:"20px 0px"}}/>
                 <h4>{new Date().getFullYear() + '년 ' + (new Date().getMonth()+1)+'월'}</h4>
                 <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
-                    <Line data={data} options={options} style={{width: "90vw" ,height: "50vh"}}/>
+                    <Line data={data} options={options} style={{width: "90vw" ,height: "20vh"}}/>
                 </div>
                 <div className="landing_page_post_container">
                     {posts.map((element)=>(
