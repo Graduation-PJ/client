@@ -45,6 +45,8 @@ function PostDetailPage() {
         }).catch(function (error) {
             console.log(error);
         });
+        alert("글이 삭제되었습니다.");
+        navigate("/");
     }
 
     const transmitComment = (e) => {

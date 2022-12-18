@@ -85,7 +85,7 @@ function MyPage() {
         axios.get('http://localhost:8080/board/myList', {withCredentials: true}
         ).then(function (response) {
             setPosts(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         }).catch(function (error) {
             console.log(error);
         })
@@ -124,13 +124,33 @@ function MyPage() {
         introComment.className = "introComment"
     }
 
-    const viewContribution = () => {
+    const viewForwardContribution = () => {
         //이동한 날짜에 대한 contribution 불러오기
-        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + month}`, {withCredentials: true}).then(function (response) {
+        if(month===0){
+            setMonth(12);
+        }
+        else
+
+        getLineChart();
+        console.log("forward", year+'-'+(month));
+    }
+    const getLineChart=()=>{
+        console.log(month);
+        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + (month)}`, {withCredentials: true}).then(function (response) {
             setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
         })
+    }
+
+    const viewBackContribution = () => {
+        //이동한 날짜에 대한 contribution 불러오기
+        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + (month+1)}`, {withCredentials: true}).then(function (response) {
+            setContribution(response.data)
+        }).catch(function (error) {
+            console.log(error);
+        })
+        console.log(year+'-'+(month+1));
     }
 
     return (
@@ -165,7 +185,7 @@ function MyPage() {
                         if(month==1){
                             setYear(year-1);
                         }
-                        viewContribution();
+                        viewForwardContribution();
                     }}/>
                     <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
                         <Line data={data} options={options} style={{width: "54vw", height: "20vh"}}/>
@@ -175,7 +195,7 @@ function MyPage() {
                         if(month==12){
                             setYear(year+1);
                         }
-                        viewContribution();
+                        viewBackContribution();
                     }}/>
                 </div>
             </div>

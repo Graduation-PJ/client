@@ -130,3 +130,7 @@ body{
 .markdown_content >p{
     margin: 0px;
 }
+
+.markdown_content > blockquote > p >img {
+    width: 100%;
+}

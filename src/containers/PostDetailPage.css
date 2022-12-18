@@ -40,6 +40,10 @@
     padding-bottom: 80px;
     font-size: 16px;
 }
+
+.post_detail_content > p >img{
+    width: 100%;
+}
 /* 글 수정, 삭제 버튼 보임 */
 .post_modify{
     visibility: visible;
