@@ -124,19 +124,8 @@ function MyPage() {
         introComment.className = "introComment"
     }
 
-    const viewForwardContribution = () => {
-        //이동한 날짜에 대한 contribution 불러오기
-        if(month===0){
-            setMonth(12);
-        }
-        else
-
-        getLineChart();
-        console.log("forward", year+'-'+(month));
-    }
-    const getLineChart=()=>{
-        console.log(month);
-        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + (month)}`, {withCredentials: true}).then(function (response) {
+    const getLineChart = (chartYear, chartMonth) => {
+        axios.get(`http://localhost:8080/contributionData?dateString=${chartYear + '-' + (chartMonth)}`, {withCredentials: true}).then(function (response) {
             setContribution(response.data)
         }).catch(function (error) {
             console.log(error);
@@ -144,13 +133,45 @@ function MyPage() {
     }
 
     const viewBackContribution = () => {
-        //이동한 날짜에 대한 contribution 불러오기
-        axios.get(`http://localhost:8080/contributionData?dateString=${year + '-' + (month+1)}`, {withCredentials: true}).then(function (response) {
-            setContribution(response.data)
-        }).catch(function (error) {
-            console.log(error);
-        })
-        console.log(year+'-'+(month+1));
+        //날짜 변경
+        setMonth((month - 1) % 12);
+        if (month == 1) {
+            setMonth(12);
+            setYear(year - 1);
+        }
+
+        let chartMonth = month;
+        let chartYear = year;
+        chartMonth = (chartMonth - 1) % 12;
+        if (chartMonth == 0) {
+            chartMonth = 12;
+            chartYear--;
+        }
+        getLineChart(chartYear, chartMonth);  //chart
+    }
+
+    const viewForwardContribution = () => {
+        //날짜 변경
+        if (month == 12) {
+            setMonth(1);
+            setYear(year + 1);
+        } else if (month == 11) {
+            setMonth(12);
+        } else {
+            setMonth((month + 1) % 12);
+        }
+
+        let chartMonth = month;
+        let chartYear = year;
+        if (chartMonth == 12) {
+            chartMonth = 1;
+            chartYear++;
+        } else if (month == 11) {
+            chartMonth=12;
+        } else {
+            chartMonth = (chartMonth + 1) % 12;
+        }
+        getLineChart(chartYear, chartMonth);  //chart
     }
 
     return (
@@ -180,35 +201,24 @@ function MyPage() {
                 <hr style={{margin: "20px 0px"}}/>
                 <h4>{year + '년 ' + month + '월'}</h4>
                 <div style={{display: "flex", alignItems: "center"}}>
-                    <img className="tool_hover arrow" src={ArrowBack} alt="" onClick={(e) => {
-                        month == 1 ? setMonth(12):setMonth(month - 1);
-                        if(month==1){
-                            setYear(year-1);
-                        }
-                        viewForwardContribution();
-                    }}/>
+                    <img className="tool_hover arrow" src={ArrowBack} alt="" onClick={viewBackContribution}/>
                     <div className="my_contribution" style={{display: "flex", justifyContent: "center"}}>
                         <Line data={data} options={options} style={{width: "54vw", height: "20vh"}}/>
                     </div>
-                    <img className="tool_hover arrow" src={ArrowForward} alt="" onClick={(e) => {
-                        month == 12 ? setMonth(1):setMonth(month + 1);
-                        if(month==12){
-                            setYear(year+1);
-                        }
-                        viewBackContribution();
-                    }}/>
+                    <img className="tool_hover arrow" src={ArrowForward} alt="" onClick={viewForwardContribution}/>
                 </div>
             </div>
             <div className="landing_page_post_container"
                  style={{width: "80%", marginLeft: "auto", marginRight: "auto"}}>
                 {posts.map((element) => (
                     //댓글 수 추가해야함.
-                    <PostPreview key={element.id} postId={element.board_id} userId={element.user_id} title={element.title}
+                    <PostPreview key={element.id} postId={element.board_id} userId={element.user_id}
+                                 title={element.title}
                                  content={element.content}
                                  writer={element.nickname} regDate={element.upload_date} hits={element.hit_count}
                                  comments={element.comments}
                                  imgURL={getImgSrcRegExp.exec(element.content) !== null ? getImgSrcRegExp.exec(element.content)[1] : "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMjZfMjI4%2FMDAxNjY2NzIxOTIxNjk4.XEujLVjuXmu5lou860nFu97yWbWUdth6tHiQHRl5UBUg.W55nUYehJB_sFqqWfsjW0PilQVJBwzTlyZE5XyNK2f0g.PNG.xxunju%2F%25BD%25BA%25C5%25A9%25B8%25B0%25BC%25A6%2528882%2529.png&type=sc960_832"}
-                                 />
+                    />
                 ))}
             </div>
         </div>
